@@ -99,4 +99,181 @@ function calculateFinalValue() {
     
     finalValueElement.textContent = formatNumber(finalValue);
     differenceElement.textContent = formatNumber(difference);
-} 
+}
+
+// Scientific Calculator
+let previousOperand = '';
+let currentOperand = '0';
+let lastOperation = '';
+let shouldResetScreen = false;
+
+function updateDisplay() {
+    document.querySelector('.previous-operand').textContent = previousOperand;
+    // Format the current operand for display
+    let displayNumber = currentOperand;
+    if (displayNumber.length > 12) {
+        // Convert to exponential notation if number is too long
+        displayNumber = parseFloat(displayNumber).toExponential(6);
+    }
+    document.querySelector('.current-operand').textContent = displayNumber;
+}
+
+function clearCalc() {
+    previousOperand = '';
+    currentOperand = '0';
+    lastOperation = '';
+    shouldResetScreen = false;
+    updateDisplay();
+}
+
+function deleteLast() {
+    if (currentOperand.length === 1) {
+        currentOperand = '0';
+    } else {
+        currentOperand = currentOperand.slice(0, -1);
+    }
+    updateDisplay();
+}
+
+function addNumber(number) {
+    if (shouldResetScreen) {
+        currentOperand = '0';
+        shouldResetScreen = false;
+    }
+    if (currentOperand === '0' && number !== '.') {
+        currentOperand = number;
+    } else if (number === '.' && !currentOperand.includes('.')) {
+        currentOperand += number;
+    } else if (number !== '.') {
+        // Limit the length of the number to prevent overflow
+        if (currentOperand.replace(/[.-]/g, '').length < 12) {
+            currentOperand += number;
+        }
+    }
+    updateDisplay();
+}
+
+function addOperator(operator) {
+    if (operator === '-' && currentOperand === '0') {
+        currentOperand = '-';
+        updateDisplay();
+        return;
+    }
+
+    const operation = operator;
+    if (currentOperand === '0' && previousOperand === '') return;
+
+    if (previousOperand !== '') {
+        calculate(true);
+    }
+
+    lastOperation = operation;
+    previousOperand = `${currentOperand} ${operation}`;
+    shouldResetScreen = true;
+    updateDisplay();
+}
+
+function addFunction(func) {
+    const prevValue = parseFloat(currentOperand);
+    let result;
+
+    switch(func) {
+        case 'sin':
+            result = Math.sin(prevValue * Math.PI / 180);
+            previousOperand = `sin(${currentOperand})`;
+            break;
+        case 'cos':
+            result = Math.cos(prevValue * Math.PI / 180);
+            previousOperand = `cos(${currentOperand})`;
+            break;
+        case 'tan':
+            result = Math.tan(prevValue * Math.PI / 180);
+            previousOperand = `tan(${currentOperand})`;
+            break;
+        case 'sqrt':
+            result = Math.sqrt(prevValue);
+            previousOperand = `√(${currentOperand})`;
+            break;
+        case 'x²':
+            result = prevValue ** 2;
+            previousOperand = `(${currentOperand})²`;
+            break;
+        case 'log':
+            result = Math.log10(prevValue);
+            previousOperand = `log(${currentOperand})`;
+            break;
+        case 'π':
+            result = Math.PI;
+            previousOperand = 'π';
+            break;
+        case 'e':
+            result = Math.E;
+            previousOperand = 'e';
+            break;
+    }
+    currentOperand = result.toString();
+    shouldResetScreen = true;
+    updateDisplay();
+}
+
+function calculate(keepResult = false) {
+    if (!previousOperand || currentOperand === '0') return;
+
+    const prev = parseFloat(previousOperand.split(' ')[0]);
+    const current = parseFloat(currentOperand);
+    let result;
+
+    switch(lastOperation) {
+        case '+':
+            result = prev + current;
+            break;
+        case '-':
+            result = prev - current;
+            break;
+        case '*':
+            result = prev * current;
+            break;
+        case '/':
+            result = prev / current;
+            break;
+    }
+
+    if (!keepResult) {
+        previousOperand = `${previousOperand} ${currentOperand} =`;
+    }
+    currentOperand = result.toString();
+    lastOperation = '';
+    updateDisplay();
+    if (!keepResult) {
+        shouldResetScreen = true;
+    }
+}
+
+// Add keyboard support for scientific calculator
+document.addEventListener('keydown', function(e) {
+    // Prevent default behavior for calculator keys
+    if (e.key.match(/[0-9]/) || e.key.match(/[\+\-\*\/\(\)\.]/) || e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Escape') {
+        e.preventDefault();
+    }
+
+    // Numbers
+    if (e.key.match(/[0-9]/)) {
+        addNumber(e.key);
+    }
+    // Operators
+    else if (e.key === '+') addOperator('+');
+    else if (e.key === '-') addOperator('-');
+    else if (e.key === '*') addOperator('*');
+    else if (e.key === '/') addOperator('/');
+    // Decimal point
+    else if (e.key === '.') addNumber('.');
+    // Parentheses
+    else if (e.key === '(') addOperator('(');
+    else if (e.key === ')') addOperator(')');
+    // Enter/Equal
+    else if (e.key === 'Enter' || e.key === '=') calculate();
+    // Backspace
+    else if (e.key === 'Backspace') deleteLast();
+    // Escape/Clear
+    else if (e.key === 'Escape') clearCalc();
+}); 

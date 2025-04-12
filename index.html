@@ -8,88 +8,135 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">
-                <div class="logo-icon">%</div>
-                <h1>Percentage Calculator</h1>
-            </div>
-        </header>
-
-        <div class="calculator-section">
-            <div class="calc-group">
-                <label>What is</label>
-                <input type="number" id="percent1" placeholder="0">
-                <label>% of</label>
-                <input type="number" id="value1" placeholder="0">
-                <label>?</label>
-                <button onclick="calculatePercentage()">CALCULATE</button>
-                <div class="result" id="result1"></div>
-            </div>
-        </div>
-
-        <div class="calculator-section">
-            <div class="calc-group">
-                <input type="number" id="value2" placeholder="0">
-                <label>is what percent of</label>
-                <input type="number" id="value3" placeholder="0">
-                <label>?</label>
-                <button onclick="calculateWhatPercent()">CALCULATE</button>
-                <div class="result" id="result2"></div>
-            </div>
-        </div>
-
-        <div class="calculator-section">
-            <div class="calc-group">
-                <div class="input-wrapper">
-                    <label>Initial value</label>
-                    <input type="number" id="oldValue" placeholder="0">
+    <div class="page-container">
+        <div class="container percentage-calc">
+            <header>
+                <div class="logo">
+                    <div class="logo-icon">%</div>
+                    <h1>Percentage Calculator</h1>
                 </div>
-                <div class="input-wrapper">
-                    <label>Final value</label>
-                    <input type="number" id="newValue" placeholder="0">
+            </header>
+
+            <div class="calculator-section">
+                <div class="calc-group">
+                    <label>What is</label>
+                    <input type="number" id="percent1" placeholder="0">
+                    <label>% of</label>
+                    <input type="number" id="value1" placeholder="0">
+                    <label>?</label>
+                    <button onclick="calculatePercentage()">CALCULATE</button>
+                    <div class="result" id="result1"></div>
                 </div>
-                <button onclick="calculateIncreaseDecrease()">CALCULATE</button>
-                <div class="results-group">
-                    <div class="result-item">
-                        <label>Increase/Decrease</label>
-                        <div class="result" id="result3"></div>
+            </div>
+
+            <div class="calculator-section">
+                <div class="calc-group">
+                    <input type="number" id="value2" placeholder="0">
+                    <label>is what percent of</label>
+                    <input type="number" id="value3" placeholder="0">
+                    <label>?</label>
+                    <button onclick="calculateWhatPercent()">CALCULATE</button>
+                    <div class="result" id="result2"></div>
+                </div>
+            </div>
+
+            <div class="calculator-section">
+                <div class="calc-group">
+                    <div class="input-wrapper">
+                        <label>Initial value</label>
+                        <input type="number" id="oldValue" placeholder="0">
                     </div>
-                    <div class="result-item">
-                        <label>Difference</label>
-                        <div class="result" id="difference"></div>
+                    <div class="input-wrapper">
+                        <label>Final value</label>
+                        <input type="number" id="newValue" placeholder="0">
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="calculator-section">
-            <div class="calc-group">
-                <div class="input-wrapper">
-                    <label>Value</label>
-                    <input type="number" id="baseValue" placeholder="0">
-                </div>
-                <div class="input-wrapper">
-                    <label>Percentage change</label>
-                    <input type="number" id="changePercent" placeholder="0">
-                    <span class="hint">Use positive for increase, negative for decrease</span>
-                </div>
-                <button onclick="calculateFinalValue()">CALCULATE</button>
-                <div class="results-group">
-                    <div class="result-item">
-                        <label>Final Value</label>
-                        <div class="result" id="finalValue"></div>
-                    </div>
-                    <div class="result-item">
-                        <label>Difference</label>
-                        <div class="result" id="valueDifference"></div>
+                    <button onclick="calculateIncreaseDecrease()">CALCULATE</button>
+                    <div class="results-group">
+                        <div class="result-item">
+                            <label>Increase/Decrease</label>
+                            <div class="result" id="result3"></div>
+                        </div>
+                        <div class="result-item">
+                            <label>Difference</label>
+                            <div class="result" id="difference"></div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div class="calculator-section">
+                <div class="calc-group">
+                    <div class="input-wrapper">
+                        <label>Value</label>
+                        <input type="number" id="baseValue" placeholder="0">
+                    </div>
+                    <div class="input-wrapper">
+                        <label>Percentage change</label>
+                        <input type="number" id="changePercent" placeholder="0">
+                        <span class="hint">Use positive for increase, negative for decrease</span>
+                    </div>
+                    <button onclick="calculateFinalValue()">CALCULATE</button>
+                    <div class="results-group">
+                        <div class="result-item">
+                            <label>Final Value</label>
+                            <div class="result" id="finalValue"></div>
+                        </div>
+                        <div class="result-item">
+                            <label>Difference</label>
+                            <div class="result" id="valueDifference"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tips">
+                Tips: Use tab to move to the next field. Use shift+tab to move to the previous field. Press enter to calculate.
+            </div>
         </div>
 
-        <div class="tips">
-            Tips: Use tab to move to the next field. Use shift+tab to move to the previous field. Press enter to calculate.
+        <div class="container scientific-calc">
+            <div class="calc-display">
+                <div class="previous-operand"></div>
+                <div class="current-operand">0</div>
+            </div>
+            <div class="calc-buttons">
+                <!-- Row 1: Functions -->
+                <button class="function" onclick="clearCalc()">C</button>
+                <button class="function" onclick="deleteLast()">⌫</button>
+                <button class="function" onclick="addOperator('(')">(</button>
+                <button class="function" onclick="addOperator(')')">)</button>
+                <button class="function" onclick="addFunction('sin')">sin</button>
+
+                <!-- Row 2: Functions -->
+                <button class="function" onclick="addFunction('cos')">cos</button>
+                <button class="function" onclick="addFunction('tan')">tan</button>
+                <button class="function" onclick="addFunction('sqrt')">√</button>
+                <button class="function" onclick="addFunction('x²')">x²</button>
+                <button class="function" onclick="addFunction('log')">log</button>
+
+                <!-- Row 3-6: Numbers and Operations -->
+                <button onclick="addNumber('7')">7</button>
+                <button onclick="addNumber('8')">8</button>
+                <button onclick="addNumber('9')">9</button>
+                <button class="operator" onclick="addOperator('/')">/</button>
+                <button class="operator" onclick="addOperator('*')">×</button>
+
+                <button onclick="addNumber('4')">4</button>
+                <button onclick="addNumber('5')">5</button>
+                <button onclick="addNumber('6')">6</button>
+                <button class="operator" onclick="addOperator('-')">-</button>
+                <button class="function" onclick="addFunction('π')">π</button>
+
+                <button onclick="addNumber('1')">1</button>
+                <button onclick="addNumber('2')">2</button>
+                <button onclick="addNumber('3')">3</button>
+                <button class="operator" onclick="addOperator('+')">+</button>
+                <button class="function" onclick="addFunction('e')">e</button>
+
+                <button onclick="addNumber('0')">0</button>
+                <button onclick="addNumber('.')">.</button>
+                <button class="equals" onclick="calculate()" style="grid-column: span 3">=</button>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
