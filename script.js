@@ -9,7 +9,29 @@ document.addEventListener('DOMContentLoaded', function() {
         inputs.forEach(input => {
             input.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
+                    e.preventDefault();
                     button.click();
+                }
+            });
+
+            // Allow only numbers and specific keys
+            input.addEventListener('keydown', (e) => {
+                // Allow: backspace, delete, tab, escape, enter, decimal point
+                if ([46, 8, 9, 27, 13, 110, 190].indexOf(e.keyCode) !== -1 ||
+                    // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+                    (e.keyCode >= 35 && e.keyCode <= 39) || // Allow: home, end, left, right
+                    (e.keyCode === 86 && (e.ctrlKey || e.metaKey)) || // Allow: Ctrl+V
+                    (e.keyCode === 67 && (e.ctrlKey || e.metaKey)) || // Allow: Ctrl+C
+                    (e.keyCode === 88 && (e.ctrlKey || e.metaKey)) || // Allow: Ctrl+X
+                    (e.keyCode === 65 && (e.ctrlKey || e.metaKey)) || // Allow: Ctrl+A
+                    // Allow: minus sign
+                    e.keyCode === 189 || e.keyCode === 109) {
+                    return;
+                }
+                // Ensure that it is a number and stop the keypress
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) &&
+                    (e.keyCode < 96 || e.keyCode > 105)) {
+                    e.preventDefault();
                 }
             });
         });
@@ -106,6 +128,7 @@ let previousOperand = '';
 let currentOperand = '0';
 let lastOperation = '';
 let shouldResetScreen = false;
+let isNewCalculation = true;
 
 function updateDisplay() {
     document.querySelector('.previous-operand').textContent = previousOperand;
@@ -123,6 +146,7 @@ function clearCalc() {
     currentOperand = '0';
     lastOperation = '';
     shouldResetScreen = false;
+    isNewCalculation = true;
     updateDisplay();
 }
 
@@ -136,9 +160,10 @@ function deleteLast() {
 }
 
 function addNumber(number) {
-    if (shouldResetScreen) {
+    if (shouldResetScreen || isNewCalculation) {
         currentOperand = '0';
         shouldResetScreen = false;
+        isNewCalculation = false;
     }
     if (currentOperand === '0' && number !== '.') {
         currentOperand = number;
@@ -160,16 +185,20 @@ function addOperator(operator) {
         return;
     }
 
-    const operation = operator;
     if (currentOperand === '0' && previousOperand === '') return;
 
-    if (previousOperand !== '') {
+    if (previousOperand !== '' && !previousOperand.includes('=')) {
         calculate(true);
     }
 
-    lastOperation = operation;
-    previousOperand = `${currentOperand} ${operation}`;
+    if (previousOperand.includes('=')) {
+        previousOperand = '';
+    }
+
+    lastOperation = operator;
+    previousOperand = `${currentOperand} ${operator}`;
     shouldResetScreen = true;
+    isNewCalculation = false;
     updateDisplay();
 }
 
@@ -213,6 +242,7 @@ function addFunction(func) {
     }
     currentOperand = result.toString();
     shouldResetScreen = true;
+    isNewCalculation = true;
     updateDisplay();
 }
 
@@ -240,6 +270,7 @@ function calculate(keepResult = false) {
 
     if (!keepResult) {
         previousOperand = `${previousOperand} ${currentOperand} =`;
+        isNewCalculation = true;
     }
     currentOperand = result.toString();
     lastOperation = '';
@@ -251,29 +282,33 @@ function calculate(keepResult = false) {
 
 // Add keyboard support for scientific calculator
 document.addEventListener('keydown', function(e) {
-    // Prevent default behavior for calculator keys
-    if (e.key.match(/[0-9]/) || e.key.match(/[\+\-\*\/\(\)\.]/) || e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Escape') {
-        e.preventDefault();
-    }
+    // Only handle calculator keys if focus is not in an input field
+    if (document.activeElement.tagName !== 'INPUT') {
+        // Prevent default behavior for calculator keys
+        if (e.key.match(/[0-9]/) || e.key.match(/[\+\-\*\/\(\)\.]/) || 
+            e.key === 'Enter' || e.key === 'Backspace' || e.key === 'Escape') {
+            e.preventDefault();
+        }
 
-    // Numbers
-    if (e.key.match(/[0-9]/)) {
-        addNumber(e.key);
+        // Numbers
+        if (e.key.match(/[0-9]/)) {
+            addNumber(e.key);
+        }
+        // Operators
+        else if (e.key === '+') addOperator('+');
+        else if (e.key === '-') addOperator('-');
+        else if (e.key === '*') addOperator('*');
+        else if (e.key === '/') addOperator('/');
+        // Decimal point
+        else if (e.key === '.') addNumber('.');
+        // Parentheses
+        else if (e.key === '(') addOperator('(');
+        else if (e.key === ')') addOperator(')');
+        // Enter/Equal
+        else if (e.key === 'Enter' || e.key === '=') calculate();
+        // Backspace
+        else if (e.key === 'Backspace') deleteLast();
+        // Escape/Clear
+        else if (e.key === 'Escape') clearCalc();
     }
-    // Operators
-    else if (e.key === '+') addOperator('+');
-    else if (e.key === '-') addOperator('-');
-    else if (e.key === '*') addOperator('*');
-    else if (e.key === '/') addOperator('/');
-    // Decimal point
-    else if (e.key === '.') addNumber('.');
-    // Parentheses
-    else if (e.key === '(') addOperator('(');
-    else if (e.key === ')') addOperator(')');
-    // Enter/Equal
-    else if (e.key === 'Enter' || e.key === '=') calculate();
-    // Backspace
-    else if (e.key === 'Backspace') deleteLast();
-    // Escape/Clear
-    else if (e.key === 'Escape') clearCalc();
 }); 
