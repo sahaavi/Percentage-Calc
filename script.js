@@ -39,9 +39,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function formatNumber(number) {
+    // Always use plain number format with 12 decimal places for maximum precision
     return new Intl.NumberFormat('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
+        minimumFractionDigits: 12,
+        maximumFractionDigits: 12,
+        useGrouping: false // Disable thousand separators for cleaner display
     }).format(number);
 }
 
