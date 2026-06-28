@@ -3,142 +3,371 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Percentage Calculator</title>
+    <title>Percentage Calculator - Percent, Increase, Discount & Change</title>
+    <meta name="description" content="Free percentage calculator for percent of a number, percentage increase or decrease, discounts, tips, tax, markup, and percentage change formulas.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://sahaavi.github.io/Percentage-Calc/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Percentage Calculator">
+    <meta property="og:description" content="Calculate percentages, discounts, tips, tax, markup, and percentage change in your browser.">
+    <meta property="og:url" content="https://sahaavi.github.io/Percentage-Calc/">
+    <meta property="og:site_name" content="Percentage Calculator">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Percentage Calculator">
+    <meta name="twitter:description" content="Fast percentage, discount, and percent change calculations with formulas and examples.">
+
+    <meta name="theme-color" content="#0f766e">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="site-config.js"></script>
+    <script src="tracking.js" defer></script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Percentage Calculator",
+        "url": "https://sahaavi.github.io/Percentage-Calc/",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "description": "A free browser-based calculator for percentages, percentage increase and decrease, discounts, tips, tax, markup, and percentage change.",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "Calculate a percentage of a number",
+            "Find what percent one number is of another",
+            "Calculate percentage increase or decrease",
+            "Apply a percentage change",
+            "Calculate discount sale price and savings"
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How do you calculate a percentage of a number?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Divide the percentage by 100, then multiply by the number. For example, 20% of 150 is 0.20 times 150, which equals 30."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do you calculate percentage increase?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Subtract the original value from the new value, divide by the original value, then multiply by 100."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do you calculate a discount?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Multiply the original price by the discount percent divided by 100 to get the savings, then subtract the savings from the original price."
+                }
+            }
+        ]
+    }
+    </script>
 </head>
 <body>
-    <div class="page-container">
-        <div class="container percentage-calc">
-            <header>
-                <div class="logo">
-                    <div class="logo-icon">%</div>
-                    <h1>Percentage Calculator</h1>
-                </div>
-            </header>
+    <header class="site-header">
+        <nav class="topbar" aria-label="Primary">
+            <a class="brand" href="https://sahaavi.github.io/Percentage-Calc/" aria-label="Percentage Calculator home">
+                <span class="brand-mark" aria-hidden="true">%</span>
+                <span>Percentage Calculator</span>
+            </a>
+            <div class="nav-links">
+                <a href="#calculators">Calculators</a>
+                <a href="#formulas">Formulas</a>
+                <a href="#faq">FAQ</a>
+                <a href="privacy.html">Privacy</a>
+            </div>
+        </nav>
 
-            <div class="calculator-section">
-                <div class="calc-group">
-                    <label>What is</label>
-                    <input type="number" id="percent1" placeholder="0">
-                    <label>% of</label>
-                    <input type="number" id="value1" placeholder="0">
-                    <label>?</label>
-                    <button onclick="calculatePercentage()">CALCULATE</button>
-                    <div class="result" id="result1"></div>
+        <section class="hero" aria-labelledby="page-title">
+            <div class="hero-copy">
+                <p class="eyebrow">Fast percent math, no account needed</p>
+                <h1 id="page-title">Percentage Calculator</h1>
+                <p class="hero-text">Calculate percentages, discounts, tips, tax, markup, and percent change with formulas you can copy or share.</p>
+            </div>
+            <div class="quick-panel" aria-labelledby="quick-tasks-title">
+                <h2 id="quick-tasks-title">Quick Tasks</h2>
+                <div class="preset-grid">
+                    <button type="button" class="preset-chip" data-preset="discount">Discount</button>
+                    <button type="button" class="preset-chip" data-preset="tip">Tip</button>
+                    <button type="button" class="preset-chip" data-preset="tax">Tax</button>
+                    <button type="button" class="preset-chip" data-preset="raise">Raise</button>
+                    <button type="button" class="preset-chip" data-preset="markup">Markup</button>
+                    <button type="button" class="preset-chip" data-preset="change">Percent change</button>
                 </div>
             </div>
+        </section>
+    </header>
 
-            <div class="calculator-section">
-                <div class="calc-group">
-                    <input type="number" id="value2" placeholder="0">
-                    <label>is what percent of</label>
-                    <input type="number" id="value3" placeholder="0">
-                    <label>?</label>
-                    <button onclick="calculateWhatPercent()">CALCULATE</button>
-                    <div class="result" id="result2"></div>
+    <main>
+        <section class="trust-strip" aria-label="Privacy and utility notes">
+            <span>Runs in your browser</span>
+            <span>Recent calculations stay on this device</span>
+            <span>Free on GitHub Pages</span>
+        </section>
+
+        <section id="calculators" class="calculator-grid" aria-label="Percentage calculators">
+            <article class="calculator-card" id="percent-of-card">
+                <div class="card-heading">
+                    <div>
+                        <p class="eyebrow">Percent calculator</p>
+                        <h2>Find X% of a Number</h2>
+                    </div>
+                    <span class="formula-pill">X / 100 x Y</span>
                 </div>
-            </div>
-
-            <div class="calculator-section">
-                <div class="calc-group">
-                    <div class="input-wrapper">
-                        <label>Initial value</label>
-                        <input type="number" id="oldValue" placeholder="0">
+                <p class="example">Example: 20% of 150 = 30</p>
+                <form class="calc-form" data-calculator="percent-of">
+                    <div class="field-row sentence-row">
+                        <label for="percent-of-percent">What is</label>
+                        <input type="number" id="percent-of-percent" name="percent" inputmode="decimal" placeholder="20" step="any">
+                        <label for="percent-of-value">% of</label>
+                        <input type="number" id="percent-of-value" name="value" inputmode="decimal" placeholder="150" step="any">
+                        <span aria-hidden="true">?</span>
                     </div>
-                    <div class="input-wrapper">
-                        <label>Final value</label>
-                        <input type="number" id="newValue" placeholder="0">
+                    <div class="actions">
+                        <button type="submit" class="primary-button">Calculate</button>
                     </div>
-                    <button onclick="calculateIncreaseDecrease()">CALCULATE</button>
-                    <div class="results-group">
-                        <div class="result-item">
-                            <label>Increase/Decrease</label>
-                            <div class="result" id="result3"></div>
-                        </div>
-                        <div class="result-item">
-                            <label>Difference</label>
-                            <div class="result" id="difference"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="calculator-section">
-                <div class="calc-group">
-                    <div class="input-wrapper">
-                        <label>Value</label>
-                        <input type="number" id="baseValue" placeholder="0">
-                    </div>
-                    <div class="input-wrapper">
-                        <label>Percentage change</label>
-                        <input type="number" id="changePercent" placeholder="0">
-                        <span class="hint">Use positive for increase, negative for decrease</span>
-                    </div>
-                    <button onclick="calculateFinalValue()">CALCULATE</button>
-                    <div class="results-group">
-                        <div class="result-item">
-                            <label>Final Value</label>
-                            <div class="result" id="finalValue"></div>
-                        </div>
-                        <div class="result-item">
-                            <label>Difference</label>
-                            <div class="result" id="valueDifference"></div>
+                    <div class="result-panel" data-result-for="percent-of" aria-live="polite">
+                        <p class="result-label">Result</p>
+                        <output id="percent-of-result">Enter values to calculate.</output>
+                        <p class="result-formula"></p>
+                        <div class="result-actions" hidden>
+                            <button type="button" data-action="copy-result">Copy result</button>
+                            <button type="button" data-action="copy-formula">Copy formula</button>
+                            <button type="button" data-action="share">Share</button>
                         </div>
                     </div>
-                </div>
-            </div>
+                </form>
+            </article>
 
-            <div class="tips">
-                Tips: Use tab to move to the next field. Use shift+tab to move to the previous field. Press enter to calculate.
+            <article class="calculator-card" id="what-percent-card">
+                <div class="card-heading">
+                    <div>
+                        <p class="eyebrow">Ratio to percent</p>
+                        <h2>Find What Percent One Number Is</h2>
+                    </div>
+                    <span class="formula-pill">A / B x 100</span>
+                </div>
+                <p class="example">Example: 30 is 20% of 150</p>
+                <form class="calc-form" data-calculator="what-percent">
+                    <div class="field-row compact-sentence-row">
+                        <label class="sr-only" for="what-percent-part">Part value</label>
+                        <input type="number" id="what-percent-part" name="part" inputmode="decimal" placeholder="30" step="any">
+                        <span aria-hidden="true">is what percent of</span>
+                        <label class="sr-only" for="what-percent-whole">Whole value</label>
+                        <input type="number" id="what-percent-whole" name="whole" inputmode="decimal" placeholder="150" step="any">
+                        <span aria-hidden="true">?</span>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" class="primary-button">Calculate</button>
+                    </div>
+                    <div class="result-panel" data-result-for="what-percent" aria-live="polite">
+                        <p class="result-label">Result</p>
+                        <output id="what-percent-result">Enter values to calculate.</output>
+                        <p class="result-formula"></p>
+                        <div class="result-actions" hidden>
+                            <button type="button" data-action="copy-result">Copy result</button>
+                            <button type="button" data-action="copy-formula">Copy formula</button>
+                            <button type="button" data-action="share">Share</button>
+                        </div>
+                    </div>
+                </form>
+            </article>
+
+            <article class="calculator-card" id="change-card">
+                <div class="card-heading">
+                    <div>
+                        <p class="eyebrow">Percentage increase calculator</p>
+                        <h2>Percentage Increase or Decrease</h2>
+                    </div>
+                    <span class="formula-pill">(New - Old) / Old x 100</span>
+                </div>
+                <p class="example">Example: 120 to 150 = 25% increase</p>
+                <form class="calc-form" data-calculator="change">
+                    <div class="field-grid">
+                        <label for="change-old">Original value</label>
+                        <input type="number" id="change-old" name="oldValue" inputmode="decimal" placeholder="120" step="any">
+                        <label for="change-new">New value</label>
+                        <input type="number" id="change-new" name="newValue" inputmode="decimal" placeholder="150" step="any">
+                    </div>
+                    <div class="actions">
+                        <button type="submit" class="primary-button">Calculate</button>
+                    </div>
+                    <div class="result-panel" data-result-for="change" aria-live="polite">
+                        <p class="result-label">Result</p>
+                        <output id="change-result">Enter values to calculate.</output>
+                        <p class="result-formula"></p>
+                        <div class="result-actions" hidden>
+                            <button type="button" data-action="copy-result">Copy result</button>
+                            <button type="button" data-action="copy-formula">Copy formula</button>
+                            <button type="button" data-action="share">Share</button>
+                        </div>
+                    </div>
+                </form>
+            </article>
+
+            <article class="calculator-card" id="apply-change-card">
+                <div class="card-heading">
+                    <div>
+                        <p class="eyebrow">Apply percent change</p>
+                        <h2>Add or Subtract a Percentage</h2>
+                    </div>
+                    <span class="formula-pill">Value x (1 + P / 100)</span>
+                </div>
+                <p class="example">Example: 200 with 15% increase = 230</p>
+                <form class="calc-form" data-calculator="apply-change">
+                    <div class="field-grid">
+                        <label for="apply-base">Starting value</label>
+                        <input type="number" id="apply-base" name="baseValue" inputmode="decimal" placeholder="200" step="any">
+                        <label for="apply-percent">Percentage change</label>
+                        <input type="number" id="apply-percent" name="changePercent" inputmode="decimal" placeholder="15" step="any">
+                    </div>
+                    <div class="actions">
+                        <button type="submit" class="primary-button">Calculate</button>
+                    </div>
+                    <div class="result-panel" data-result-for="apply-change" aria-live="polite">
+                        <p class="result-label">Result</p>
+                        <output id="apply-change-result">Use positive for increase and negative for decrease.</output>
+                        <p class="result-formula"></p>
+                        <div class="result-actions" hidden>
+                            <button type="button" data-action="copy-result">Copy result</button>
+                            <button type="button" data-action="copy-formula">Copy formula</button>
+                            <button type="button" data-action="share">Share</button>
+                        </div>
+                    </div>
+                </form>
+            </article>
+
+            <article class="calculator-card feature-card" id="discount-card">
+                <div class="card-heading">
+                    <div>
+                        <p class="eyebrow">Discount calculator</p>
+                        <h2>Sale Price and Savings</h2>
+                    </div>
+                    <span class="formula-pill">Price - Price x Discount%</span>
+                </div>
+                <p class="example">Example: $80 with 25% off = $60, save $20</p>
+                <form class="calc-form" data-calculator="discount">
+                    <div class="field-grid">
+                        <label for="discount-price">Original price</label>
+                        <input type="number" id="discount-price" name="price" inputmode="decimal" placeholder="80" min="0" step="any">
+                        <label for="discount-percent">Discount percent</label>
+                        <input type="number" id="discount-percent" name="discountPercent" inputmode="decimal" placeholder="25" step="any">
+                    </div>
+                    <div class="actions">
+                        <button type="submit" class="primary-button">Calculate</button>
+                    </div>
+                    <div class="result-panel" data-result-for="discount" aria-live="polite">
+                        <p class="result-label">Result</p>
+                        <output id="discount-result">Enter values to calculate.</output>
+                        <p class="result-formula"></p>
+                        <div class="result-actions" hidden>
+                            <button type="button" data-action="copy-result">Copy result</button>
+                            <button type="button" data-action="copy-formula">Copy formula</button>
+                            <button type="button" data-action="share">Share</button>
+                        </div>
+                    </div>
+                </form>
+            </article>
+
+            <aside class="calculator-card side-card" aria-labelledby="activity-title">
+                <div class="card-heading">
+                    <div>
+                        <p class="eyebrow">Local activity</p>
+                        <h2 id="activity-title">Recent Calculations</h2>
+                    </div>
+                    <button type="button" class="ghost-button" id="clear-history">Clear</button>
+                </div>
+                <ol class="history-list" id="history-list">
+                    <li class="empty-history">No recent calculations yet.</li>
+                </ol>
+                <div class="stats-panel" aria-live="polite">
+                    <span id="today-count">0 calculations today</span>
+                    <span id="copy-count">0 copied today</span>
+                </div>
+            </aside>
+        </section>
+
+        <section id="formulas" class="content-section" aria-labelledby="formulas-title">
+            <div class="section-copy">
+                <p class="eyebrow">How the math works</p>
+                <h2 id="formulas-title">Percentage Formulas</h2>
+                <p>These formulas cover the most common searches for percent calculator, percentage increase calculator, discount calculator, tip calculator, tax calculator, and markup calculator.</p>
             </div>
+            <div class="formula-grid">
+                <article>
+                    <h3>Percentage of a number</h3>
+                    <p><strong>Formula:</strong> result = percentage / 100 x value</p>
+                    <p>To find 15% of 240, calculate 0.15 x 240 = 36.</p>
+                </article>
+                <article>
+                    <h3>What percent is one number of another?</h3>
+                    <p><strong>Formula:</strong> percentage = part / whole x 100</p>
+                    <p>If 45 out of 180 orders are returned, 45 / 180 x 100 = 25%.</p>
+                </article>
+                <article>
+                    <h3>Percentage increase or decrease</h3>
+                    <p><strong>Formula:</strong> change = (new - original) / original x 100</p>
+                    <p>If a price rises from 80 to 92, the increase is 15%.</p>
+                </article>
+                <article>
+                    <h3>Discount sale price</h3>
+                    <p><strong>Formula:</strong> sale price = original price x (1 - discount / 100)</p>
+                    <p>For $50 at 30% off, the sale price is $35 and the savings are $15.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="faq" class="content-section" aria-labelledby="faq-title">
+            <div class="section-copy">
+                <p class="eyebrow">FAQ</p>
+                <h2 id="faq-title">Percentage Calculator Questions</h2>
+            </div>
+            <div class="faq-list">
+                <details>
+                    <summary>How do you calculate a percentage of a number?</summary>
+                    <p>Divide the percentage by 100, then multiply by the number. For example, 20% of 150 is 0.20 x 150 = 30.</p>
+                </details>
+                <details>
+                    <summary>How do you calculate percentage increase?</summary>
+                    <p>Subtract the original value from the new value, divide by the original value, then multiply by 100. Positive results are increases; negative results are decreases.</p>
+                </details>
+                <details>
+                    <summary>How do you calculate a discount?</summary>
+                    <p>Multiply the original price by discount percent / 100 to find the savings. Subtract the savings from the original price to find the sale price.</p>
+                </details>
+                <details>
+                    <summary>Does this calculator store my numbers?</summary>
+                    <p>Recent calculations are stored only in your browser on your device. They are not sent to a server by this app.</p>
+                </details>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>Percentage Calculator runs as a static GitHub Pages app. Calculations happen locally in your browser.</p>
+        <div class="footer-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="sitemap.xml">Sitemap</a>
+            <a href="https://github.com/sahaavi/Percentage-Calc">GitHub</a>
         </div>
+    </footer>
 
-        <div class="container scientific-calc">
-            <div class="calc-display">
-                <div class="previous-operand"></div>
-                <div class="current-operand">0</div>
-            </div>
-            <div class="calc-buttons">
-                <!-- Row 1: Functions -->
-                <button class="function" onclick="clearCalc()">C</button>
-                <button class="function" onclick="deleteLast()">⌫</button>
-                <button class="function" onclick="addOperator('(')">(</button>
-                <button class="function" onclick="addOperator(')')">)</button>
-                <button class="function" onclick="addFunction('sin')">sin</button>
-
-                <!-- Row 2: Functions -->
-                <button class="function" onclick="addFunction('cos')">cos</button>
-                <button class="function" onclick="addFunction('tan')">tan</button>
-                <button class="function" onclick="addFunction('sqrt')">√</button>
-                <button class="function" onclick="addFunction('x²')">x²</button>
-                <button class="function" onclick="addFunction('log')">log</button>
-
-                <!-- Row 3-6: Numbers and Operations -->
-                <button onclick="addNumber('7')">7</button>
-                <button onclick="addNumber('8')">8</button>
-                <button onclick="addNumber('9')">9</button>
-                <button class="operator" onclick="addOperator('/')">/</button>
-                <button class="operator" onclick="addOperator('*')">×</button>
-
-                <button onclick="addNumber('4')">4</button>
-                <button onclick="addNumber('5')">5</button>
-                <button onclick="addNumber('6')">6</button>
-                <button class="operator" onclick="addOperator('-')">-</button>
-                <button class="function" onclick="addFunction('π')">π</button>
-
-                <button onclick="addNumber('1')">1</button>
-                <button onclick="addNumber('2')">2</button>
-                <button onclick="addNumber('3')">3</button>
-                <button class="operator" onclick="addOperator('+')">+</button>
-                <button class="function" onclick="addFunction('e')">e</button>
-
-                <button onclick="addNumber('0')">0</button>
-                <button onclick="addNumber('.')">.</button>
-                <button class="equals" onclick="calculate()" style="grid-column: span 3">=</button>
-            </div>
-        </div>
-    </div>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
-</html> 
+</html>

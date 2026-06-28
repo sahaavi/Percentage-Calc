@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sahaavi.github.io/Percentage-Calc/sitemap.xml
